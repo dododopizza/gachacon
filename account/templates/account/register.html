@@ -1,13 +1,18 @@
-{% extends "main/base.html" %}
-
-{% block title %}Create an account{% endblock %}
-
+{% extends "main/base.html" %} {% block title %}Create an account{% endblock %}
 {% block content %}
-    <h1>Create an account</h1>
-    <p>Please, sign up using the following form:</p>
-    <form method="post">
-        {{ user_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Create my account"></p>
-    </form>
+<div style="padding-top: 10%" id="2">
+  <h1>Create an account</h1>
+  <p>Please, sign up using the following form:</p>
+  <form method="post">{% csrf_token %}
+  {{ user_form.as_p }}
+    <p>
+      <input
+        type="submit"
+        class="btn btn-primary p-1 mt-4"
+        value="Create my account"
+      />
+    </p>
+  </form>
+</div>
+
 {% endblock %}

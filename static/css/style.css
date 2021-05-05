@@ -7,7 +7,25 @@ p {
     margin-bottom: 0 !important;
 }
 
+.bg-transparent {
+    transition: 0.5s;
+}
+
+.bg-dark {
+    transition: 0.5s;
+}
+
 .backg {
     background: linear-gradient(45deg, rgb(91, 248, 0), rgb(0, 108, 248));
-    padding: 5%;
+    height: 1000px;
+}
+
+.cont {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+}
+
+li {
+    margin-right: 1% !important;
 }

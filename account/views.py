@@ -5,8 +5,6 @@ from . import models
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 
-def logged_out(request):
-    return render( request, "account/logged_out.html")
 
 def register(request):
     if request.method == 'POST':

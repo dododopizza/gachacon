@@ -3,7 +3,7 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-<h1>Log-in</h1>
+<div style="padding-top: 10%;" id="2"><h1>Log-in</h1>
     {% if form.errors %}
         <p>
             Your username and password didn't match.
@@ -17,7 +17,8 @@
             {{ form.as_p }}
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next }}"/>
-            <p><input type="submit" value="Log-in"></p>
+            <p><input type="submit" value="Log-in" class="btn btn-primary mt-4"></p>
         </form>
-    </div>
+    </div></div>
+
 {% endblock %}
