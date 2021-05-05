@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm, LoginForm
+from .forms import UserRegistrationForm, ProfileEditForm, LoginForm, InfoEditForm, RoleEditForm
 from . import models
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
-
+from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
@@ -17,6 +17,8 @@ def register(request):
             # Save the User object
             new_user.save()
             profile = models.Profile.objects.create(user=new_user)
+            info = models.Info.objects.create(user=new_user)
+            role = models.Role.objects.create(user=new_user)
             return render(request, 'account/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
@@ -43,17 +45,35 @@ def user_login(request):
 @login_required
 def edit(request):
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST)
+        role = models.Role.objects.get(user=request.user)
+        info = models.Info.objects.get(user=request.user)
+        info_form = InfoEditForm(instance=info , data=request.POST)
+        role_form = RoleEditForm(instance=role , data=request.POST)
         profile = models.Profile.objects.get(user = request.user)
         profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
+        if profile_form.is_valid() and role_form.is_valid() and info_form.is_valid():
             profile_form.save()
+            role_form.save()
+            info_form.save()
             return render(request, 'account/succesful.html')
+        else:
+            return render(request, 'account/error.html')
     else:
-        user_form = UserEditForm(instance=request.user)
+        role_form = RoleEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
+        info_form = InfoEditForm(instance=request.user)
         return render(request,
                       'account/edit.html',
-                      {'user_form': user_form,
-                       'profile_form': profile_form})
+                      {'profile_form': profile_form,
+                      'role_form': role_form,
+                      'info_form': info_form,
+                      })
+def profile(request):
+    User = models.Profile.objects.get(user=request.user)
+
+    role = models.Role.objects.get(user=request.user)
+    info = models.Info.objects.get(user=request.user)
+    return render(request, 'account/profile.html', {"profile": User,
+    'role':role,
+    'info':info,
+    })

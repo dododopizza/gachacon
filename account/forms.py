@@ -21,24 +21,36 @@ class UserRegistrationForm(forms.ModelForm):
         return cd['password2']
 
 
-class UserEditForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
-        widgets = {
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.TextInput(attrs={'class': 'form-control'}),
-        }
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = models.Profile
-        fields = ('date_of_birth', 'photo')
+        fields = ('first_name', 'last_name', 'age', 'photo')
         widgets = {
-            'date_of_birth': forms.TextInput(attrs={'class': 'form-control'}),
-            'photo': forms.FileInput(attrs={'class': 'form-control-file'}),
+            'age': forms.TextInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class InfoEditForm(forms.ModelForm):
+    class Meta:
+        model = models.Info
+        fields = ('info',)
+        widgets = {
+            'info': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class RoleEditForm(forms.ModelForm):
+    class Meta:
+        model = models.Role
+        fields = ('role',)
+        widgets = {
+            'role': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))

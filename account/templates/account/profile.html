@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+<div class="d-flex"><div class="container"><label for="" class="form-label">Avatar:</label>
+<img src="{{ profile.photo.url }}" class="img-thumbnail" style="width: 200px; height: 200px;"> 
+<div class="fi">Username: {{ profile.user }}</div>
+<div>Role: {{ role.role }}</div>
+<div>Age: {{ profile.age }}</div>
+<div>Name: {{ profile.first_name }} {{ profile.last_name }}</div>
+<button class="btn btn-primary" href="{% url "edit" %}" ><a href="{% url "edit" %}" class="text-light">Edit profile</a></button></div>
+<div class="container" id="profileinfo">
+
+<div class="info">
+<h5>Information</h5>
+<blockquote wordwrap>{{ info.info }}</blockquote>
+</div>
+
+    
+</div></div>
+
+{% endblock content %}
