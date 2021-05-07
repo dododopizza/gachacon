@@ -10,9 +10,20 @@ window.onload = function(){
 }
 </script>
 {% endif %}
+<div class="contforform">
+<div class="for-form text-center mt-5">
 <form method="post" enctype="multipart/form-data">
+{% for elem in pr_form %}
+<p class="mt-4">
+{{ elem.label_tag }}
+{{ elem }}
+</p>
+{% endfor %}
 {% csrf_token %}
-{{ pr_form.as_p }}
 <input type="submit" value="Сохранить" class="btn btn-primary mt-4">
 </form>
+</div>
+
+</div>
+
 {% endblock content %}

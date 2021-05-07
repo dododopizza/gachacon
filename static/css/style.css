@@ -1,6 +1,6 @@
 body {
     font-size: 3vh !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .avatar {
@@ -23,6 +23,10 @@ p {
 .backg {
     background: url('https://media.discordapp.net/attachments/830067551064555520/839867425465958400/683b561236f48204.png?width=473&height=473') 100% 100% no-repeat;
     background-size: cover;
+}
+
+.backg2 {
+    height: 583px !important;
 }
 
 .input-group {

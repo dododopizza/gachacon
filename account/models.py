@@ -20,7 +20,8 @@ class Profile(models.Model):
 
 class Project(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=f'users/projects_icon/', blank=True)
-    link = models.TextField(blank=True, null=True)
-    name_project = models.TextField(blank=True, null=True)
+    image = models.TextField(blank=False, null=True)
+    name_project = models.TextField(blank=False, null=True)
     date = models.TextField(blank=True, null=True)
+    who = models.TextField(blank=True, null=True)
+    info = models.TextField(blank=True, null=True)

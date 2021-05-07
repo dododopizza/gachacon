@@ -29,10 +29,6 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class ProfileEditForm(forms.ModelForm):
-    role = forms.ChoiceField(label='Роль:', widget=forms.Select(attrs={'class': 'form-control'}), choices=[
-                ('Программист','Программист'),
-                ('Дизайнер','Дизайнер')
-            ])
     class Meta:
         model = models.Profile
         fields = ('age', 'photo','role','country','city','tools','interest','work_time', 'GMT','email')
@@ -40,6 +36,7 @@ class ProfileEditForm(forms.ModelForm):
             'age': forms.TextInput(attrs={'class': 'form-control'}),
             'photo': forms.FileInput(attrs={'class': 'form-control'}),
             'country':forms.TextInput(attrs={'class': 'form-control'}),
+            'role' : forms.TextInput(attrs={'class': 'form-control'}),
             'city':forms.TextInput(attrs={'class': 'form-control'}),
             'tools':forms.TextInput(attrs={'class': 'form-control'}),
             'interest':forms.TextInput(attrs={'class': 'form-control'}),
@@ -58,6 +55,7 @@ class ProfileEditForm(forms.ModelForm):
             'work_time': ('Рабочее время:'),
             'GMT': ('Часовой пояс по GMT:'),
             'email': ('Email:'),
+            'role': ('Роль:')
         }
 
 
@@ -67,12 +65,20 @@ class ProjectsEditForm(forms.ModelForm):
     
     class Meta:
         model = models.Project
-        fields = ('image','link','name_project', 'date')
+        fields = ('image','name_project', 'info', 'who','date',)
         widgets = {
-            "image" : forms.FileInput(attrs={'class': 'form-control'}),
-            'link' : forms.TextInput(attrs={'class': 'form-control'}),
-            'name_project': forms.TextInput(attrs={'class': 'form-control'}),
+            "image" : forms.TextInput(attrs={'class': 'form-control'}),
+            'name_project': forms.TextInput(attrs={'class': 'form-control'}),   
+            'info': forms.TextInput(attrs={'class': 'form-control'}),
+            'who': forms.TextInput(attrs={'class': 'form-control'}),
             'date' : forms.HiddenInput(),
+        }
+        labels = {
+            "image" : ('Ссылка на фото проекта'),
+            'name_project': ('Имя проекта'),
+            'info': ('Информация о проекте'),
+            'who': ('Кто нужен для проекта'),
+            'date': (''),
         }
 
 class LoginForm(forms.Form):

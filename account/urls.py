@@ -11,7 +11,8 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name="edit"),
     path('edit_projects/', views.edit_projects, name="editpr"),
     url(r'^profile/(?P<pk>[-\w]+)/$', views.profile, name="profile"),
-    path('logout/', views.Logout, name="logout")
+    path('logout/', views.Logout, name="logout"),
+    url(r'^profile/(?P<pk>[-\w]+)/project/$', views.project, name="project"),
 ]
 if settings.DEBUG:
     urlpatterns +=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

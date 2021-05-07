@@ -1,17 +1,14 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SearchForm
+from django.shortcuts import render, redirect
 from account.models import Profile
-from .models import Search
-from django.template import RequestContext
 from datetime import datetime
 
 # Create your views here.
 
 def index(request):
-    form = SearchForm()
-    res = Profile.objects.filter(date_reg=int(datetime.today().strftime('%Y%m%d')))
+    form = Profile.objects.all()
+    res = reversed(Profile.objects.filter(date_reg=int(datetime.today().strftime('%Y%m%d'))))
     try:
-        id_user = request.user.id - 1
+        id_user = request.user.id 
     except:
         id_user = False
     return render(request, "main/index.html", {
@@ -23,10 +20,10 @@ def index(request):
 def search(request):
     res = 0
     try:
-        id_user = request.user.id - 1
+        id_user = request.user.id 
     except:
         id_user = False
-    form = SearchForm()
+    form = Profile.objects.all()
     if request.method == "POST":
         res = Profile.objects.filter(role=request.POST['req'])
         return render(request, 'main/search.html',{

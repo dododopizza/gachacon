@@ -8,9 +8,15 @@ index
 <h2 class="text-center mb-5 pt-5 mt-5">Найди единомышленников и создававай <br> что-то новое уже сейчас! Не знаешь как?<br> Мы поможем!</h2>
 <form method="post" action="{% url "search" %}">
 {% csrf_token %}
-<div class="input-group" style="margin-right: auto; margin-left: auto;">{{ form.req }}
+<div class="input-group" style="margin-right: auto; margin-left: auto;">
+<select name="req" id="" class="form-control mt-0">
+{% for elem in form %}
+<option value="{{ elem.role }}">{{ elem.role }}</option>
+{% endfor %}
+</select>
+{{ form.req }}
 <span class="input-group-btn">
-                    <input type="submit" class="btn btn-primary" value="Search">
+                    <input type="submit" class="btn btn-primary" value="Поиск">
                 </span></div>
 
 </form>
@@ -20,7 +26,7 @@ index
 {% if res %}
 <table class="table table-hover">
   <thead>
-    <tr>
+    <tr> 
       <th></th>
       <th></th>
       <th>Возраст</th>
@@ -30,8 +36,6 @@ index
   </thead>
   <tbody>
   {% for elem in res %}
-  {% if elem.age != None and elem.role != None and elem.city != None %}{% endif %}
-  
   <tr onclick="document.getElementById('urltoprofile').click()">
       <th style="width: 100px; height: 100px;">
       {% if elem.photo %}

@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Project{% endblock title %}
+
+{% block content %}
+<h1 class="text-center">Имя проекта: {{ project.name_project }}</h1>
+<hr>
+<h1 class="text-center">Информация: {{ project.info }}</h1>
+<h1 class="text-center">Кто нужен для проекта: {{ project.who }}</h1>
+
+{% endblock content %}

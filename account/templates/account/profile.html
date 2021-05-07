@@ -2,6 +2,11 @@
 {% load static %}
 {% block title %}Профиль{% endblock title %}
 
+{% block head %}
+<script>
+
+</script>
+{% endblock head %}
 
 
 
@@ -19,7 +24,7 @@
 <div class="pr_f">Возрас: <b>{{ profile.age }}</b></div>
 <div class="pr_f">Страна: <b>{{ profile.country }}</b></div>
 <div class="pr_f">Город: <b>{{ profile.city }}</b></div>
-{% if id == profile.id %}<button class="btn btn-primary mt-4" href="{% url "edit" %}" ><a href="{% url "edit" %}" class="text-light">Edit profile</a></button>{% endif %}
+{% if id == profile.id %}<button class="btn btn-primary mt-4" href="{% url "edit" %}" ><a href="{% url "edit" %}" class="text-light">Редактировать профиль</a></button>{% endif %}
 </div>
 <div class="container bg-light" id="profileinfo">
 
@@ -50,7 +55,7 @@
 <h5>Проекты:</h5>
 
 
-{% if project.link != None %}
+{% if project.date != None %}
 <div class="card bg-transparent border-0" style="width: 18rem;">
 {% if project.image %} 
 <img src="{{ project.image.url }}" class="card-img-top" alt="...">
@@ -59,7 +64,7 @@
 {% endif %}
  
   <div class="card-body">
-    <a href="{{ project.link }}"><p class="card-title text-center mb-0" style="font-size:2.5vh;">{{ project.name_project }}</p></a>
+    <a href="{% url 'project' profile.id %}"><p class="card-title text-center mb-0" style="font-size:2.5vh;">{{ project.name_project }}</p></a>
     <p style="font-size: 2vh" class="text-center">{{ project.date }} - В процессе </p>
   </div>
 </div>

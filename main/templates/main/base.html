@@ -12,6 +12,8 @@
       integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <title>{% block title %}{% endblock %}</title>
     <script>
     window.onscroll = function() {
@@ -29,12 +31,13 @@
     </script>
     {% block head %} {% endblock %}
   </head>
-  <body>
+  <body onload='ora()'>
   <div class="backg" id="backg">
   <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-transparent mt-0 position-fixed w-100" id="1">
       <div class="container-fluid">
-        <img src="{% static 'img/logo.png' %}" style="width: 3%; height: 3%;">
+        <img src="{% static 'img/logo.png' %}" style="width: 4%; height: 4%;">
+        <img src="{% static 'img/d1228f2826cf7231.png' %}" style="width: 5%; height: 4%;">
         <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 1%;">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -71,7 +74,7 @@
     
 
     <!-- Footer -->
-    <div class="bg-light p-2"><span style="
+    <div class="bg-light p-2" id="4"><span style="
 				background: linear-gradient(153deg, #2692a0 10%, #f02ef9 100%);
 				-webkit-background-clip: text;
 				background-clip: text;
@@ -95,5 +98,15 @@
       integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
       crossorigin="anonymous"
     ></script>
+    <script>
+     function ora(){
+      var bg = document.getElementById('backg');
+      var elem = document.getElementById('4');
+      var top = elem.getBoundingClientRect().top + document.body.scrollTop;
+      if (window.innerHeight > top){
+        bg.classList.add('backg2');
+      }
+    }
+    </script>
   </body>
 </html>

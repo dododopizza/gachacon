@@ -55,7 +55,7 @@ def user_login(request):
 def edit_profile(request):
     err = 0
     try:
-        id_user = request.user.id - 1
+        id_user = request.user.id 
     except:
         id_user = False
     if request.method == 'POST':
@@ -87,7 +87,7 @@ def edit_profile(request):
 def edit_projects(request):
     err = 0
     try:
-        id_user = request.user.id - 1
+        id_user = request.user.id 
     except:
         id_user = False
     if request.method == 'POST':
@@ -118,7 +118,7 @@ def profile(request, pk):
     User = get_object_or_404(models.Profile, pk=pk)
     project = get_object_or_404(models.Project, pk=pk)
     try:
-        id_user = request.user.id - 1
+        id_user = request.user.id 
     except:
         id_user = False
     return render(request, 'account/profile.html', {"profile": User,
@@ -129,3 +129,15 @@ def profile(request, pk):
 def Logout(request):
     logout(request)
     return redirect('/')
+
+def project(request, pk):
+    User = get_object_or_404(models.Profile, pk=pk)
+    project = get_object_or_404(models.Project, pk=pk)
+    try:
+        id_user = request.user.id 
+    except:
+        id_user = False
+    return render(request, 'account/project.html', {"profile": User,
+    'project':project,
+    'id':id_user,
+    })
