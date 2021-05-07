@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, ProfileEditForm, LoginForm, InfoEditForm, RoleEditForm
+from .forms import UserRegistrationForm, ProfileEditForm, LoginForm, ProjectsEditForm
 from . import models
-from django.contrib.auth import authenticate, login
-from django.http import HttpResponse
-from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from datetime import datetime
 
 def register(request):
     if request.method == 'POST':
@@ -16,15 +15,15 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             # Save the User object
             new_user.save()
-            profile = models.Profile.objects.create(user=new_user)
-            info = models.Info.objects.create(user=new_user)
-            role = models.Role.objects.create(user=new_user)
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            profile = models.Profile.objects.create(user=new_user, date_reg=int(datetime.today().strftime('%Y%m%d')))
+            project = models.Project.objects.create(user=new_user)
+            return redirect('login')
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
 
 def user_login(request):
+    err = 0
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -33,47 +32,100 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponse('Authenticated successfully')
+                    return redirect('edit')
                 else:
-                    return HttpResponse('Disabled account')
+                    form = LoginForm()
+                    err = 1
+                    render(request, 'account/login.html', {'form': form,
+                    'err': err,
+                    })
             else:
-                return HttpResponse('Invalid login')
+                form = LoginForm()
+                err = 1
+                render(request, 'account/login.html', {'form': form,
+                'err': err,
+                })
     else:
         form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, 'account/login.html', {'form': form,
+    'err': err,
+    })
 
 @login_required
-def edit(request):
+def edit_profile(request):
+    err = 0
+    try:
+        id_user = request.user.id - 1
+    except:
+        id_user = False
     if request.method == 'POST':
-        role = models.Role.objects.get(user=request.user)
-        info = models.Info.objects.get(user=request.user)
-        info_form = InfoEditForm(instance=info , data=request.POST)
-        role_form = RoleEditForm(instance=role , data=request.POST)
         profile = models.Profile.objects.get(user = request.user)
         profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
-        if profile_form.is_valid() and role_form.is_valid() and info_form.is_valid():
+        if profile_form.is_valid():
             profile_form.save()
-            role_form.save()
-            info_form.save()
-            return render(request, 'account/succesful.html')
+            return redirect(f'/account/profile/{id_user}/')
         else:
-            return render(request, 'account/error.html')
+            err = 1
+            profile = models.Profile.objects.get(user = request.user)
+            profile_form = ProfileEditForm(request.POST, instance = profile)
+            return render(request,
+                      'account/edit.html',
+                      {'profile_form': profile_form,
+                      'err': err,
+                      'id':id_user,
+                      })
     else:
-        role_form = RoleEditForm(instance=request.user)
-        profile_form = ProfileEditForm(instance=request.user.profile)
-        info_form = InfoEditForm(instance=request.user)
+        profile = models.Profile.objects.get(user = request.user)
+        profile_form = ProfileEditForm(request.POST, instance = profile)
         return render(request,
                       'account/edit.html',
                       {'profile_form': profile_form,
-                      'role_form': role_form,
-                      'info_form': info_form,
+                      'err': err,
+                      'id':id_user,
                       })
-def profile(request):
-    User = models.Profile.objects.get(user=request.user)
 
-    role = models.Role.objects.get(user=request.user)
-    info = models.Info.objects.get(user=request.user)
-    return render(request, 'account/profile.html', {"profile": User,
-    'role':role,
-    'info':info,
+def edit_projects(request):
+    err = 0
+    try:
+        id_user = request.user.id - 1
+    except:
+        id_user = False
+    if request.method == 'POST':
+        project = models.Project.objects.get(user=request.user)
+        tr = request.POST.copy()
+        tr['date'] = datetime.today().strftime('%d %B %Y')
+        project_form = ProjectsEditForm(instance=project, data=tr)
+        if project_form.is_valid():
+            project_form.save()
+            return redirect(f'/account/profile/{id_user}/')
+        else:
+            err = 1
+            return render(RequestContext(request), 'account/editpr.html', {
+            'pr_form': project_form,
+            'err': err,
+            'id':id_user,
+            })
+    project_form = ProjectsEditForm(instance=request.user)
+    return render(request, 'account/editpr.html', {
+    'pr_form': project_form,
+    'err': err,
+    'id':id_user,
     })
+
+def profile(request, pk):
+    # User = models.Profile.objects.get(user=request.user)
+    # project = models.Project.objects.get(user=request.user)
+    User = get_object_or_404(models.Profile, pk=pk)
+    project = get_object_or_404(models.Project, pk=pk)
+    try:
+        id_user = request.user.id - 1
+    except:
+        id_user = False
+    return render(request, 'account/profile.html', {"profile": User,
+    'project':project,
+    'id':id_user,
+    })
+
+def Logout(request):
+    logout(request)
+    return redirect('/')

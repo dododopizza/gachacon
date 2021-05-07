@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Search
+{% endblock title %}
+
+{% block content %}
+<form method="post">
+{% csrf_token %}
+<div class="input-group">{{ form.req }}
+<span class="input-group-btn">
+                    <input type="submit" class="btn btn-primary" value="Search">
+                </span></div>
+
+</form>
+<hr>
+{% if res %}
+<ul class="list-group">
+{% for elem in res %}
+<a href="{% url 'profile' elem.id %}"><li class="list-group-item d-flex">
+<img src="{{ elem.photo.url }}" alt="" style="width: 17%; height: 17%;">
+<div class="info">
+<p>Имя пользователя: {{ elem.user }}</p>
+<p>Страна: {{ elem.country }}</p>
+<p>Город: {{ elem.city }}</p>
+<p>Инструменты: {{ elem.tools }}</p></div>
+</li>
+</a>
+
+{% endfor %}
+</ul>
+{% else %}
+<div>Ненаход пользователей с таким ролем</div>
+{% endif %}
+{% endblock %}

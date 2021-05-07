@@ -1,17 +1,33 @@
 {% extends "main/base.html" %}
 
-{% block title %}Edit your account{% endblock %}
+{% block title %}Создай свой аккаунт{% endblock %}
 
 {% block content %}
-
-<h1>Edit your account</h1>
-    <p>You can edit your account using the following form:</p>
+<div class="contforform">
+<h1 class="text-center">Создай свой аккаунт</h1>
+{% if err %}
+<script>
+window.onload = function(){
+    alert('Try again')
+}
+</script>
+{% endif %}
+    <p class="text-center">Ты можешь создать аккаунт, следуя форме:</p>
+    <div class="for-form text-center mt-5">
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-        {{ profile_form.as_p }}
-        {{ role_form.as_p }}
-        {{ info_form.as_p }}
-        <p><input type="submit" value="Save changes" class="btn btn-primary mt-4"></p>
+    {% for elem in profile_form %}
+    <p class="mt-4">
+    {{ elem.label_tag }}
+    {{ elem }}
+    </p>
+    {% endfor %}
+        <p><input type="submit" value="Сохранить" class="btn btn-primary mt-4"></p>
+
     </form>
+    </div>
+    
+    </div>
+
     
 {% endblock %}

@@ -2,18 +2,25 @@ from django.db import models
 from django.conf import settings
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    first_name = models.TextField(blank=True, null=True)
-    last_name = models.TextField(blank=True, null=True)
-    age = models.TextField(blank=True, null=True)
-    photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, max_length=16)
+    age = models.TextField(blank=False, null=True)
+    photo = models.ImageField(upload_to=f'users/avatars/', blank=True)
+    role = models.TextField(blank=False, null=True)
+    country = models.TextField(blank=False, null=True)
+    city = models.TextField(blank=False, null=True)
+    email = models.TextField(blank=False, null=True)
+    tools = models.TextField(blank=False, null=True)
+    interest = models.TextField(blank=False, null=True)
+    work_time = models.TextField(blank=False, null=True)
+    GMT = models.TextField(blank=False, null=True)
+    date_reg = models.IntegerField(blank=True, null=True)
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)
 
-class Role(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    role = models.TextField(blank=True, null=True)
 
-class Info(models.Model):
+class Project(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    info = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to=f'users/projects_icon/', blank=True)
+    link = models.TextField(blank=True, null=True)
+    name_project = models.TextField(blank=True, null=True)
+    date = models.TextField(blank=True, null=True)
