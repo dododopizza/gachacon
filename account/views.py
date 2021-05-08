@@ -32,7 +32,11 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('edit')
+
+                    if get_object_or_404(models.Profile, pk=request.user.id).role == None:
+                        return redirect('edit')
+                    else:
+                        return redirect('/account/profile/{}/'.format(request.user.id))
                 else:
                     form = LoginForm()
                     err = 1
@@ -55,7 +59,7 @@ def user_login(request):
 def edit_profile(request):
     err = 0
     try:
-        id_user = request.user.id 
+        id_user = request.user.id
     except:
         id_user = False
     if request.method == 'POST':
@@ -63,7 +67,7 @@ def edit_profile(request):
         profile_form = ProfileEditForm(instance=profile, data=request.POST, files=request.FILES)
         if profile_form.is_valid():
             profile_form.save()
-            return redirect(f'/account/profile/{id_user}/')
+            return redirect('/account/profile/{}/'.format(id_user))
         else:
             err = 1
             profile = models.Profile.objects.get(user = request.user)
@@ -76,7 +80,7 @@ def edit_profile(request):
                       })
     else:
         profile = models.Profile.objects.get(user = request.user)
-        profile_form = ProfileEditForm(request.POST, instance = profile)
+        profile_form = ProfileEditForm(instance=profile)
         return render(request,
                       'account/edit.html',
                       {'profile_form': profile_form,
@@ -87,7 +91,7 @@ def edit_profile(request):
 def edit_projects(request):
     err = 0
     try:
-        id_user = request.user.id 
+        id_user = request.user.id
     except:
         id_user = False
     if request.method == 'POST':
@@ -97,7 +101,7 @@ def edit_projects(request):
         project_form = ProjectsEditForm(instance=project, data=tr)
         if project_form.is_valid():
             project_form.save()
-            return redirect(f'/account/profile/{id_user}/')
+            return redirect('/account/profile/{}/'.format(id_user))
         else:
             err = 1
             return render(RequestContext(request), 'account/editpr.html', {
@@ -117,8 +121,9 @@ def profile(request, pk):
     # project = models.Project.objects.get(user=request.user)
     User = get_object_or_404(models.Profile, pk=pk)
     project = get_object_or_404(models.Project, pk=pk)
+    User.email = User.email.split()
     try:
-        id_user = request.user.id 
+        id_user = request.user.id
     except:
         id_user = False
     return render(request, 'account/profile.html', {"profile": User,
@@ -134,7 +139,7 @@ def project(request, pk):
     User = get_object_or_404(models.Profile, pk=pk)
     project = get_object_or_404(models.Project, pk=pk)
     try:
-        id_user = request.user.id 
+        id_user = request.user.id
     except:
         id_user = False
     return render(request, 'account/project.html', {"profile": User,

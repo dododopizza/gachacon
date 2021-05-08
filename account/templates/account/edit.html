@@ -18,6 +18,7 @@ window.onload = function(){
     {% csrf_token %}
     {% for elem in profile_form %}
     <p class="mt-4">
+    {{ elem.errors }}
     {{ elem.label_tag }}
     {{ elem }}
     </p>
@@ -26,8 +27,8 @@ window.onload = function(){
 
     </form>
     </div>
-    
+
     </div>
 
-    
+
 {% endblock %}

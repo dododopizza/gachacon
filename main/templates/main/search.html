@@ -10,7 +10,7 @@ Search
 <div class="input-group">
 <select name="req" id="" class="form-control mt-0">
 {% for elem in form %}
-<option value="{{ elem.role }}">{{ elem.role }}</option>
+<option value="{{ elem }}">{{ elem }}</option>
 {% endfor %}
 </select>
 <span class="input-group-btn">
@@ -23,7 +23,12 @@ Search
 <ul class="list-group">
 {% for elem in res %}
 <a href="{% url 'profile' elem.id %}"><li class="list-group-item d-flex">
+{% if elem.photo %}
 <img src="{{ elem.photo.url }}" alt="" style="width: 17%; height: 17%;">
+{% else %}
+<img src="https://www.healinglight.in/img/testimonial/2.jpg"  style="width: 17%; height: 17%;">
+{% endif %}
+
 <div class="info">
 <p class="mt-2">Имя пользователя: {{ elem.user }}</p>
 <p class="mt-2">Страна: {{ elem.country }}</p>

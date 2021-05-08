@@ -15,7 +15,7 @@
 
 <div class="container bg-light pb-5">
 {% if profile.photo %}
-<img src="{{ profile.photo.url }}" class="mt-4" style="width: 90%; height: 40%; margin-right:auto; margin-left: 5%;"> 
+<img src="{{ profile.photo.url }}" class="mt-4" style="width: 90%; height: 40%; margin-right:auto; margin-left: 5%;">
 {% else %}
 <img src="https://www.healinglight.in/img/testimonial/2.jpg" class="mt-4" style="width: 90%; height: 40%; margin-right:auto; margin-left: 5%;">
 {% endif %}
@@ -30,7 +30,9 @@
 
 
 <div class="info" style="margin-top: 3%">
-<h5>Email: <b><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></b></h5>
+<h5>Контакты: <br></h5>{% for elem in profile.email %}
+<b style="margin-top: 2%;">{{ elem }}<br></b>
+{% endfor %}
 </div>
 
 
@@ -57,12 +59,10 @@
 
 {% if project.date != None %}
 <div class="card bg-transparent border-0" style="width: 18rem;">
-{% if project.image %} 
-<img src="{{ project.image.url }}" class="card-img-top" alt="...">
-{% else %}
-<img src="{% static 'img/unknown.png' %}" class="card-img-top" alt="...">
+{% if project.image %}
+<img src="{{ project.image }}" class="card-img-top" alt="...">
 {% endif %}
- 
+
   <div class="card-body">
     <a href="{% url 'project' profile.id %}"><p class="card-title text-center mb-0" style="font-size:2.5vh;">{{ project.name_project }}</p></a>
     <p style="font-size: 2vh" class="text-center">{{ project.date }} - В процессе </p>
@@ -80,7 +80,7 @@
 </div>
 </div>
 
-    
+
 </div></div>
 
 {% endblock content %}

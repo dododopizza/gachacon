@@ -54,21 +54,24 @@ class ProfileEditForm(forms.ModelForm):
             'interest': ('Интересы:'),
             'work_time': ('Рабочее время:'),
             'GMT': ('Часовой пояс по GMT:'),
-            'email': ('Email:'),
+            'email': ('Контакты:'),
             'role': ('Роль:')
+        }
+        help_texts = {
+            'email': ('Если их несколько, пропиши через пробел.'),
         }
 
 
 
 
 class ProjectsEditForm(forms.ModelForm):
-    
+
     class Meta:
         model = models.Project
         fields = ('image','name_project', 'info', 'who','date',)
         widgets = {
             "image" : forms.TextInput(attrs={'class': 'form-control'}),
-            'name_project': forms.TextInput(attrs={'class': 'form-control'}),   
+            'name_project': forms.TextInput(attrs={'class': 'form-control'}),
             'info': forms.TextInput(attrs={'class': 'form-control'}),
             'who': forms.TextInput(attrs={'class': 'form-control'}),
             'date' : forms.HiddenInput(),

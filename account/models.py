@@ -4,7 +4,7 @@ from django.conf import settings
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, max_length=16)
     age = models.TextField(blank=False, null=True)
-    photo = models.ImageField(upload_to=f'users/avatars/', blank=True)
+    photo = models.ImageField(upload_to='users/avatars/', blank=True)
     role = models.TextField(blank=False, null=True)
     country = models.TextField(blank=False, null=True)
     city = models.TextField(blank=False, null=True)

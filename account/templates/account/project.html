@@ -3,9 +3,10 @@
 {% block title %}Project{% endblock title %}
 
 {% block content %}
-<h1 class="text-center">Имя проекта: {{ project.name_project }}</h1>
+<img src="{{ project.image }}" style="width: 40%; height: 20%; margin-left: 30%;">
+<h1 class="text-center">{{ project.name_project }}</h1>
 <hr>
-<h1 class="text-center">Информация: {{ project.info }}</h1>
-<h1 class="text-center">Кто нужен для проекта: {{ project.who }}</h1>
-
+<h5 class="text-center">Дата: {{ project.date }}</h5>
+<h5 class="text-center">Не хватает: {{ project.who }}</h5>
+<h5 class="text-center">{{ project.info }}</h5>
 {% endblock content %}
